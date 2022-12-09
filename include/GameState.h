@@ -24,10 +24,10 @@ public:
     int window_x_{}, window_y_{};
     std::string window_title_;
 
-    GameState(bool debug_mode);
+    explicit GameState(bool debug_mode);
     ~GameState();
     void Setup();
-    void Loop();
+    static void Loop();
 
     // Callback functions
     void KeyboardControl (unsigned char key, int x, int y);

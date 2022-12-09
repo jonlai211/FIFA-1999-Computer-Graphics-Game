@@ -17,7 +17,7 @@ void GameState::RenderScene() {
     glEnable(GL_LIGHT0);
     glEnable(GL_LIGHT1);
 
-    this->items_.DrawBorder();
+    this->items_.DrawLawn();
     this->items_.DrawLight();
 //    this->items_.DrawDesk();
 //    this->items_.DrawChair();

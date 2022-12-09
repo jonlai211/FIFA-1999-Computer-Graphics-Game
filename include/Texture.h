@@ -14,13 +14,16 @@
 class Texture {
 public:
     Texture(const char *path);
+
     ~Texture();
+
     void Load();
+
     GLuint GetID();
 
 private:
     GLuint id_;
-    int width_, height_, channels_;
+    GLint width_, height_, channels_;
     unsigned char *data_;
 };
 

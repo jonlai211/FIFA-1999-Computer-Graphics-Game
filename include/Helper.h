@@ -36,8 +36,8 @@
 // Constants and Initial Values
 #define INIT_WINDOW_WIDTH   1280
 #define INIT_WINDOW_HEIGHT  720
-#define INIT_WINDOW_X       ((glutGet(GLUT_SCREEN_WIDTH) >> 1) - (INIT_WINDOW_WIDTH >> 1))
-#define INIT_WINDOW_Y       ((glutGet(GLUT_SCREEN_HEIGHT) >> 1)  - (INIT_WINDOW_WIDTH >> 1))
+#define INIT_WINDOW_X       ((glutGet(GLUT_SCREEN_WIDTH) - INIT_WINDOW_WIDTH) / 2)
+#define INIT_WINDOW_Y       ((glutGet(GLUT_SCREEN_HEIGHT) - INIT_WINDOW_HEIGHT) / 2)
 #define WINDOW_TITLE        "FIFA-1999"
 
 // Handy operations

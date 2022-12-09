@@ -58,17 +58,3 @@ void GameState::ReshapeCallback(int width, int height) {
 void GameState::IdleCallback() {
     glutPostRedisplay();
 }
-
-//void GameState::KeyboardControl(unsigned char key, int x, int y) const {
-//    if (key == 'w' or key == 's' or key == 'a' or key == 'd') {
-//        keyboard.Move(key, look_x_temp, look_z_temp, camera_pos_x, camera_pos_z);
-//        std::cout << "camera_pos_x: " << camera_pos_x << " camera_pos_z: " << camera_pos_z << std::endl;
-//    }
-//}
-
-//void GameState::MouseControl(int button, int state, int x, int y) {
-//    if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN) {
-//        mouse.Move(x, y, center_point_x, center_point_y, screen_rate_x, screen_rate_y,
-//                   PI, r, look_x_temp, look_z_temp, look_x, look_y, look_z);
-//    }
-//}

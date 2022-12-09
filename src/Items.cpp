@@ -3,60 +3,16 @@
 //
 
 #include "Assessment2/include/Items.h"
-#include "Assessment2/include/Helper.h"
 
 Items::Items() = default;
 
 Items::~Items() = default;
 
-void Items::DrawBorder() {
-/*    // Front wall
-    glColor3f(toRGB(253), toRGB(203), toRGB(97));
-    glBegin(GL_QUADS);
-    glVertex3f(1, 1, DEPTH_START);
-    glVertex3f(-1, 1, DEPTH_START);
-    glVertex3f(-1, -1, DEPTH_START);
-    glVertex3f(1, -1, DEPTH_START);
-    glEnd();
-
-    // Front door
-    glColor3f(toRGB(255), toRGB(255), toRGB(255));
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, this->door_.GetID());
-    glBegin(GL_QUADS);
-    glTexCoord2f(0.0, 1.0);
-    glVertex3f(0.2, 0.3, DEPTH_START - 0.001);
-    glTexCoord2f(1.0, 1.0);
-    glVertex3f(-0.2, 0.3, DEPTH_START - 0.001);
-    glTexCoord2f(1.0, 0.0);
-    glVertex3f(-0.2, -0.995, DEPTH_START - 0.001);
-    glTexCoord2f(0.0, 0.0);
-    glVertex3f(0.2, -0.995, DEPTH_START - 0.001);
-    glEnd();
-    glDisable(GL_TEXTURE_2D);
-
-    // Back
-    glColor3f(toRGB(253), toRGB(203), toRGB(97));
-    glBegin(GL_QUADS);
-    glVertex3f(1, 1, DEPTH_END);
-    glVertex3f(-1, 1, DEPTH_END);
-    glVertex3f(-1, -1, DEPTH_END);
-    glVertex3f(1, -1, DEPTH_END);
-    glEnd();
-
-    // Ceiling
-    glColor3f(toRGB(236), toRGB(240), toRGB(241));
-    glBegin(GL_QUADS);
-    glVertex3f(1, 1, DEPTH_START);
-    glVertex3f(-1, 1, DEPTH_START);
-    glVertex3f(-1, 1, DEPTH_END);
-    glVertex3f(1, 1, DEPTH_END);
-    glEnd();*/
-
+void Items::DrawLawn() {
     // Ground
     glColor3f(1.0, 1.0, 0.5);
     glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, this->floor_.GetID());
+    glBindTexture(GL_TEXTURE_2D, this->lawn_.GetID());
     glBegin(GL_QUADS);
     glTexCoord2f(0.0, 0.0);
     glVertex3f(1, -1, DEPTH_START);
@@ -68,57 +24,6 @@ void Items::DrawBorder() {
     glVertex3f(-1, -1, DEPTH_START);
     glEnd();
     glDisable(GL_TEXTURE_2D);
-
-/*    // Left
-    glColor3f(toRGB(199), toRGB(236), toRGB(238));
-//    glColor3f(1.0, 1.0, 0.7);
-    glBegin(GL_QUADS);
-    glVertex3f(-1, -1, DEPTH_START);
-    glVertex3f(-1, -1, DEPTH_END);
-    glVertex3f(-1, 1, DEPTH_END);
-    glVertex3f(-1, 1, DEPTH_START);
-    glEnd();
-
-    // Right
-    glColor3f(toRGB(199), toRGB(236), toRGB(238));
-    glBegin(GL_QUADS);
-    glVertex3f(1, -1, DEPTH_START);
-    glVertex3f(1, 1, DEPTH_START);
-    glVertex3f(1, 1, DEPTH_END);
-    glVertex3f(1, -1, DEPTH_END);
-    glEnd();*/
-
-/*    // Right wall poster
-    glColor3f(1.0, 1.0, 1.0);
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, this->poster_.GetID());
-    glBegin(GL_QUADS);
-    glTexCoord2f(1.0, 0.0);
-    glVertex3f(0.99, -0.5, DEPTH_START - 1.5);
-    glTexCoord2f(1.0, 1.0);
-    glVertex3f(0.99, 0.5, DEPTH_START - 1.5);
-    glTexCoord2f(0.0, 1.0);
-    glVertex3f(0.99, 0.5, DEPTH_END + 2.0);
-    glTexCoord2f(0.0, 0.0);
-    glVertex3f(0.99, -0.5, DEPTH_END + 2.0);
-    glEnd();
-    glDisable(GL_TEXTURE_2D);*/
-
-/*    // Right wall window
-    glColor3f(1.0, 1.0, 1.0);
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, this->window_.GetID());
-    glBegin(GL_QUADS);
-    glTexCoord2f(1.0, 0.0);
-    glVertex3f(0.99, -0.5, DEPTH_END + 0.7);
-    glTexCoord2f(1.0, 1.0);
-    glVertex3f(0.99, 0.5, DEPTH_END + 0.7);
-    glTexCoord2f(0.0, 1.0);
-    glVertex3f(0.99, 0.5, DEPTH_END + 1.2);
-    glTexCoord2f(0.0, 0.0);
-    glVertex3f(0.99, -0.5, DEPTH_END + 1.2);
-    glEnd();
-    glDisable(GL_TEXTURE_2D);*/
 }
 
 void Items::DrawLight() {
@@ -137,6 +42,17 @@ void Items::DrawLight() {
     glScalef(0.4, 0.06, 0.2);
     glutSolidCube(1.0);
     glPopMatrix();
+}
+
+void Items::LoadAll() {
+    this->lawn_.Load();
+//    this->poster_.Load();
+//    this->screen_.Load();
+//    this->door_.Load();
+//    this->keyboard_.Load();
+//    this->quilt_.Load();
+//    this->bedside_.Load();
+//    this->window_.Load();
 }
 
 //void Items::DrawDesk() {
@@ -377,14 +293,3 @@ void Items::DrawLight() {
 //    glPopMatrix();
 //
 //}
-
-void Items::LoadAll() {
-    this->floor_.Load();
-    this->poster_.Load();
-    this->screen_.Load();
-    this->door_.Load();
-    this->keyboard_.Load();
-    this->quilt_.Load();
-    this->bedside_.Load();
-    this->window_.Load();
-}
