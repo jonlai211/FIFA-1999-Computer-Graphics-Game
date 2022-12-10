@@ -19,15 +19,6 @@ void GameState::RenderScene() {
 
     this->items_.DrawLawn();
     this->items_.DrawLight();
-//    this->items_.DrawDesk();
-//    this->items_.DrawChair();
-//    this->items_.DrawBooks();
-//    if (lighting_.GetMode() == NIGHT_MODE || lighting_.GetBrightness() < 0.00) {
-//        this->items_.DrawLaptop(false);
-//    } else {
-//        this->items_.DrawLaptop(true);
-//    }
-//    this->items_.DrawBed();
 
     glPopMatrix();
     glFlush();
