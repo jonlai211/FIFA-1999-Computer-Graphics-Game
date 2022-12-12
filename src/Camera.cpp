@@ -11,15 +11,15 @@ Camera::Camera() {
     this->aspect_ratio_ = (float) (INIT_WINDOW_WIDTH / INIT_WINDOW_HEIGHT);
 
     this->eye_x_ = 0.0f;
-    this->eye_y_ = -0.2f;
-    this->eye_z_ = 1.5f;
+    this->eye_y_ = 20.0f;
+    this->eye_z_ = 10.0f;
 
     this->center_x_ = 0.0f;
     this->center_y_ = 0.0f;
     this->center_z_ = 0.0f;
 
     this->yaw_ = 0.0f;
-    this->pitch_ = 0.f;
+    this->pitch_ = 0.0f;
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -98,8 +98,10 @@ void Camera::MoveRight() {
 }
 
 void Camera::Rotate(int dt_x, int dt_y) {
-    this->yaw_ += (float) dt_x / 800;
-    this->pitch_ += (float) dt_y / 800;
+//    printf("dt_x:%.d; dt_y:%.d\n", dt_x, dt_y);
+    this->yaw_ += (float) dt_x / 600;
+    this->pitch_ += (float) dt_y / 600;
+//    printf("yaw:%.f; pitch:%.f\n", yaw_, pitch_);
     this->Apply();
 }
 
@@ -125,6 +127,7 @@ void Camera::Apply() {
     gluPerspective(fov_, aspect_ratio_, z_near_, z_far_);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+//    printf("yaw:%f; pitch:%f\n", yaw_, pitch_);
     gluLookAt(eye_x_, eye_y_, eye_z_, center_x_, center_y_, center_z_, 0.0f, 1.0f, 0.0f);
 }
 
@@ -134,8 +137,8 @@ void Camera::Reset() {
     this->z_far_ = 100;
 
     this->eye_x_ = 0.0f;
-    this->eye_y_ = -0.2f;
-    this->eye_z_ = 1.5f;
+    this->eye_y_ = -0.0f;
+    this->eye_z_ = 1.0f;
 
     this->center_x_ = 0.0f;
     this->center_y_ = 0.0f;

@@ -15,20 +15,20 @@
 
 #define Z_NEAR_MIN 3.0f
 #define Z_NEAR_MAX 3.9f
-#define Z_NEAR_STEP 0.01f
+#define Z_NEAR_STEP 0.2f
 
-#define EYE_X_MIN (-1.0f)
-#define EYE_X_MAX 1.0f
-#define EYE_X_STEP 0.01f
+#define EYE_X_MIN (-30.0f)
+#define EYE_X_MAX 30.0f
+#define EYE_X_STEP 0.2f
 
-#define EYE_Y_MIN (-1.0f)
-#define EYE_Y_MAX 1.0f
-#define EYE_Y_STEP 0.01f
+#define EYE_Y_MIN (2.0f)
+#define EYE_Y_MAX 50.0f
+#define EYE_Y_STEP 0.2f
 
-#define EYE_Z_MIN (-1.0f)
-#define EYE_Z_MAX 1.88f
-#define EYE_Z_STEP 0.01f
-#define EYE_STEP 0.01f
+#define EYE_Z_MIN (-50.0f)
+#define EYE_Z_MAX 50.0f
+#define EYE_Z_STEP 0.2f
+#define EYE_STEP 0.4f
 
 #define CENTER_X_STEP EYE_X_STEP
 #define CENTER_Y_STEP EYE_Y_STEP
@@ -63,13 +63,16 @@ public:
 
     void Apply();
 
+    float eye_x_, eye_y_, eye_z_;
+
 private:
     float fov_;
-    float eye_x_, eye_y_, eye_z_;
     float aspect_ratio_;
     float z_near_, z_far_;
     float center_x_, center_y_, center_z_;
     float yaw_, pitch_;
+//    bool FPS = false;
+    bool FPS = true;
 
     void MoveForwardBackward(float velocity);
 };

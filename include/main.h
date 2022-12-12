@@ -12,5 +12,6 @@
 #include <cmath>
 
 #include "Assessment2/include/GameState.h"
+#include "Assessment2/include/Football.h"
 
 #endif //CPT205_MAIN_H

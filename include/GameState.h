@@ -16,18 +16,18 @@
 #include "Assessment2/include/Camera.h"
 #include "Assessment2/include/Lighting.h"
 #include "Assessment2/include/Items.h"
+#include "Assessment2/include/Transform.h"
+#include "Assessment2/include/Vector3.h"
 
 class GameState {
 public:
-    // Basic window properties
-    int window_width_{}, window_height_{};
-    int window_x_{}, window_y_{};
     std::string window_title_;
 
     explicit GameState(bool debug_mode);
     ~GameState();
     void Setup();
     static void Loop();
+    void ShootCheck();
 
     // Callback functions
     void KeyboardControl (unsigned char key, int x, int y);
@@ -42,13 +42,29 @@ public:
     void IdleCallback();
 
 private:
-    bool debug_mode_;
     Camera camera_;
-//    Keyboard keyboard_;
     Mouse mouse_;
     Lighting lighting_;
     Items items_;
+    Football football_ = Football(0, 0, 0);
 
+    bool debug_mode_;
+    bool Shooting = false;
+    float football_x, football_y, football_z;
+    float friction_force;
+    float air_resistance_x, air_resistance_y, air_resistance_xyz, air_resistance_zyx, air_resistance_yzx;
+    float U = 5, M = 0.2, G = -0.098, W;
+    float L = 0.01, K = 0.4, P = 1.225, R = 5,Pi = 3.14, Spin_Multiplier = 3, SMM;
+    float magnus_effect_x, magnus_effect_y, magnus_effect_z;
+
+    Vector3 init_velocity = {0, 2, 2};
+    Vector3 gravity = {0, G, 0};
+    Vector3 ball_velocity;
+    Vector3 wind_speed = {0, 0, 0};
+    Vector3 Magnus_effect;
+    Vector3 external_force;
+
+    float v0 = 10, f = 0.01, v;
 };
 
 

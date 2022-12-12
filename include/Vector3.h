@@ -7,64 +7,179 @@
 
 #include "cmath"
 
+// Libraries
+#include <cmath>
+#include <cassert>
+#include <limits>
+
 class Vector3 {
 public:
 
-    // vars
+    // -------------------- Attributes -------------------- //
+
+    // Components of the vector
     float x, y, z;
 
-    // constructors
-    Vector3() = default;
+    // -------------------- Methods -------------------- //
 
-    Vector3(float x1, float y1, float z1) {
-        x = x1;
-        y = y1;
-        z = z1;
-    }
+    // Constructor
+    Vector3(float x = 0, float y = 0, float z = 0) : x(x), y(y), z(z) {}
 
-    // vector ops
-    void Normalize() {
-        float fTemp = 1 / Length();
-        x *= fTemp;
-        y *= fTemp;
-        z *= fTemp;
-    }
+    // Constructor
+    Vector3(const Vector3 &vector) : x(vector.x), y(vector.y), z(vector.z) {}
 
-    inline double Length() const {
-        return (sqrt((x * x) + (y * y) + (z * z)));
-    }
+    // Constructor
+    ~Vector3() {}
 
-    //  operators
-    Vector3 operator+(const Vector3 &rhs) const {
-        return (Vector3(x + rhs.x, y + rhs.y, z + rhs.z));
-    }
-
-    Vector3 operator-(const Vector3 &rhs) const {
-        return (Vector3(x - rhs.x, y - rhs.y, z - rhs.z));
-    }
-
-    Vector3 operator/(float k) const {
-        return (Vector3(x / k, y / k, z / k));
-    }
-
-    float operator*(const Vector3 &rhs) const {
-        // dot product
-        return ((x * rhs.x) + (y * rhs.y) + (z * rhs.z));
-    }
-
-    float &operator[](int n) {
-        // access like an array
-        switch (n) {
-            case 0:
-                return (x);
-            case 1:
-                return (y);
-            case 2:
-                return (z);
-            default: /* bug out */;
+    // = operator
+    Vector3 &operator=(const Vector3 &vector) {
+        if (&vector != this) {
+            x = vector.x;
+            y = vector.y;
+            z = vector.z;
         }
+        return *this;
     }
-};
+    // + operator
+    Vector3 operator+(const Vector3 &v) const {
+        return Vector3(x + v.x, y + v.y, z + v.z);
+    }
+    // += operator
+    Vector3 &operator+=(const Vector3 &v) {
+        x += v.x;
+        y += v.y;
+        z += v.z;
+        return *this;
+    }
+    // - operator
+    Vector3 operator-(const Vector3 &v) const {
+        return Vector3(x - v.x, y - v.y, z - v.z);}
 
+        // -= operato
+        Vector3 &operator-=(const Vector3 &v) {
+            x -= v.x;
+            y -= v.y;
+            z -= v.z;
+            return *this;
+        }
+
+    // == operator
+    bool operator==(const Vector3 &v) const {
+        return x == v.x && y == v.y && z == v.z;
+    }
+
+    // != operator
+    bool operator!=(const Vector3 &v) const {
+        return !(*this == v);
+    }
+
+    // * operator
+    Vector3 operator*(float f) const {
+        return Vector3(f * x, f * y, f * z);
+    }
+
+    // *= operator
+    Vector3 &operator*=(float f) {
+        x *= f;
+        y *= f;
+        z *= f;
+        return *this;
+    }
+
+    // / operator
+    Vector3 operator/(float f) const {
+        assert(f > std::numeric_limits<float>::epsilon());
+        float inv = 1.f / f;
+        return Vector3(x * inv, y * inv, z * inv);
+    }
+
+    // /= operator
+    Vector3 &operator/=(float f) {
+        assert(f > std::numeric_limits<float>::epsilon());
+        float inv = 1.f / f;
+        x *= inv;
+        y *= inv;
+        z *= inv;
+        return *this;
+    }
+
+    // - operator
+    Vector3 operator-() const {
+        return Vector3(-x, -y, -z);
+    }
+
+    // [] operator
+    float &operator[](int i) {
+        assert(i >= 0 && i <= 2);
+        switch (i) {
+            case 0:
+                return x;
+            case 1:
+                return y;
+            case 2:
+                return z;
+            }
+        return z;
+    }
+
+    // [] operator
+    const float &operator[](int i) const {
+        assert(i >= 0 && i <= 2);
+        switch (i) {
+            case 0:
+                return x;
+            case 1:
+                return y;
+            case 2:
+                return z;
+            }
+        return z;
+    }
+
+    // Cross product operator
+    Vector3 cross(const Vector3 &v) const {
+        return Vector3(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
+    }
+
+    // Dot product operator
+    float dot(const Vector3 &v) const {
+        return x * v.x + y * v.y + z * v.z;
+    }
+
+    // Normalize the vector and return it
+    Vector3 normalize() {
+        float l = length();
+        if (l < std::numeric_limits<float>::epsilon()) {
+            assert(false);
+        }
+        x /= l;
+        y /= l;
+        z /= l;
+        return *this;
+    }
+    bool isNull() const {
+        return (x == 0. && y == 0. && z == 0.);
+    }
+    // Clamp the values between 0 and 1
+    Vector3 clamp01() {
+        if (x > 1.f) x = 1.f;
+        else if (x < 0.f) x = 0.f;
+        if (y > 1.f) y = 1.f;
+        else if (y < 0.f) y = 0.f;
+        if (z > 1.f) z = 1.f;
+        else if (z < 0.f) z = 0.f;
+        return *this;
+    }
+
+    // Return the squared length of the vector
+    float lengthSquared() const { return x * x + y * y + z * z; }
+
+    // Return the length of the vector
+    float length() const { return sqrt(lengthSquared()); }
+    };
+
+    inline Vector3 operator*(float f, const Vector3 &o) {
+        return o * f;
+    }
 
 #endif //CPT205_VECTOR3_H

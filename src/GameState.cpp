@@ -44,7 +44,6 @@ void GameState::Loop() {
 }
 
 void GameState::ReshapeCallback(int width, int height) {
-    // Prevent a divide by zero, when window is too short
     if (height == 0) {
         height = 1;
     }

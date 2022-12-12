@@ -9,7 +9,10 @@ void GameState::KeyboardControl(unsigned char key, int x, int y) {
     if (key == 'q' || key == 'Q' || key == 27) {
         LOGI("Quitting...");
         exit(0);
-    } else {
+    }else if (key == ' '){
+        Shooting = true;
+    }
+    else {
         LOGI("Key pressed: %c", key);
         switch (key) {
             case 'r':
