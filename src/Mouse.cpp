@@ -8,6 +8,7 @@
 void GameState::MousePress(int button, int state, int x, int y) {
     mouse_.mouse_x_ = x;
     mouse_.mouse_y_ = y;
+//    printf("mouse_.mouse_x_:%d; mouse_.mouse_y_:%d\n", mouse_.mouse_x_, mouse_.mouse_y_);
 
     if (button == GLUT_LEFT_BUTTON) {
         if (state == GLUT_DOWN) {
@@ -17,17 +18,17 @@ void GameState::MousePress(int button, int state, int x, int y) {
     }
 
     if (button == GLUT_RIGHT_BUTTON) {
-        if (state == GLUT_DOWN){
-            Shoot_Accumulate = not Shoot_Accumulate;
+        if (state == GLUT_DOWN) {
+            PowerAccumulate = not PowerAccumulate;
         }
     }
 }
 
 void GameState::MouseControl(int x, int y) {
     if (mouse_.mouse_left_down_) {
-        printf("x:%d; y:%d\n", x, y);
+//        printf("MouseControl_x:%d; MouseControl_y:%d\n", x, y);
         camera_.Rotate(x - mouse_.mouse_x_, y - mouse_.mouse_y_);
-        printf("RotateX:%d; Rotate:%d\n", x - mouse_.mouse_x_, y - mouse_.mouse_y_);
+//        printf("RotateX:%d; Rotate:%d\n", x - mouse_.mouse_x_, y - mouse_.mouse_y_);
         mouse_.mouse_x_ = x;
         mouse_.mouse_y_ = y;
     }

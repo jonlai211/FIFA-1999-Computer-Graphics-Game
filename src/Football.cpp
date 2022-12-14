@@ -9,7 +9,7 @@
 Football::Football(float x, float y, float z) : transform(x, y, z) {
     transform.position.x = camera.eye_x_;
     transform.position.y = 1.1f;
-    transform.position.z = camera.eye_z_ - 10;
+    transform.position.z = camera.eye_z_ + 4;
 }
 
 Football::~Football() = default;

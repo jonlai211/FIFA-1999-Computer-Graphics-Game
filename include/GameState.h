@@ -48,7 +48,7 @@ public:
     // Rendering functions
     void RenderScene();
 
-    void ShootScene();
+    void InteractionScene();
 
     void DisplayText(GLfloat x, GLfloat y, const std::string& message, int num) const;
 
@@ -56,7 +56,11 @@ public:
 
     // Others
 
-    void PowerCalculate(float t, float yaw, float pitch);
+    void VelocityCalculate(float yaw, float pitch);
+
+    void VerticalMovement(float vy);
+
+    void HorizonMovement(float v, float yaw);
 
     void *font = GLUT_BITMAP_9_BY_15;
 
@@ -69,16 +73,26 @@ private:
 
     bool debug_mode_;
     bool FPS_mode = false;
-    bool Shooting = false, y_move_ = false, z_move_ = false;
+
+    bool ShootingMode = false, FreeMode = false;
+    bool PowerAccumulate = false;
+    bool HorizonMove = false, VerticalMove = false;
+    float shoot_yaw_ = 0, shoot_pitch_ = 0;
+    float init_v_vertical = 0, init_v_horizon = 0;
+
+
+    bool y_move_ = false, z_move_ = false;
     bool Shoot_Accumulate = false;
     float football_x_, football_y_ = 1.1f, football_z_;
     float football_yaw_, football_pitch_;
-    float ty = 0.0f, tz =0.0f;
-    float init_y_ = 1.1f, init_z_ = 0.0f, temp_y_ = 0.0f, temp_z_ = 0.0f;
-    float accumulate_t = 0.f;
+    float ty = 0.0f, tx =0.0f;
+    float init_y_ = 1.1f, init_x_ = 0.f, init_z_ = 0.f;
+    float temp_y_ = 0.0f, temp_z_ = 0.0f;
+    float accumulate_t = 0.f;   // 0-60
     float init_v = 0;
 
-    Vector3 init_velocity = {0, 40, 80};
+    Vector3 init_velocity;
+//    Vector3 init_velocity = {0, 100, 80};
     Vector3 ball_velocity;
 };
 

@@ -10,7 +10,7 @@ void GameState::KeyboardControl(unsigned char key, int x, int y) {
         LOGI("Quitting...");
         exit(0);
     } else if (key == ' ') {
-        if (Shooting) {
+        if (ShootingMode) {
             y_move_ = not y_move_;
             z_move_ = not z_move_;
         }
@@ -20,8 +20,8 @@ void GameState::KeyboardControl(unsigned char key, int x, int y) {
             printf("Stay!\n");
         }
     } else if (key == '1') {
-        Shooting = not Shooting;
-        if (Shooting) {
+        ShootingMode = not ShootingMode;
+        if (ShootingMode) {
             printf("Shooting Mode On!\n");
         } else {
             printf("Shooting Mode Off\n");

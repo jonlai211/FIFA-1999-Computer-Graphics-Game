@@ -5,14 +5,14 @@
 #include "Assessment2/include/Camera.h"
 
 Camera::Camera() {
-    this->fov_ = 60;
+    this->fov_ = 70;
     this->z_near_ = 0.1f;
     this->z_far_ = 100;
     this->aspect_ratio_ = (float) (INIT_WINDOW_WIDTH / INIT_WINDOW_HEIGHT);
 
-    this->eye_x_ = 10.0f;
-    this->eye_y_ = 20.0f;
-    this->eye_z_ = 10.0f;
+    this->eye_x_ = 0.0f;
+    this->eye_y_ = 3.2f;
+    this->eye_z_ = 4.0f;
 
     this->center_x_ = 0.0f;
     this->center_y_ = 0.0f;
@@ -99,9 +99,11 @@ void Camera::MoveRight() {
 
 void Camera::Rotate(int dt_x, int dt_y) {
 //    printf("dt_x:%.d; dt_y:%.d\n", dt_x, dt_y);
-    this->yaw_ += (float) dt_x / 640;
-    this->pitch_ += (float) dt_y / 640;
-//    printf("yaw:%.f; pitch:%.f\n", yaw_, pitch_);
+    this->yaw_ += (float) dt_x / 600;
+    this->pitch_ += (float) dt_y / 600;
+    this->real_yaw_ = real_yaw_ + std::asin((float) dt_x / 600) * 180 / M_PI;
+    this->real_pitch_ = real_pitch_ + std::asin((float) dt_y / 600) * 180 / M_PI;
+    printf("real_yaw:%f; real_pitch:%f\n", real_yaw_, real_pitch_);
     this->Apply();
 }
 
@@ -132,13 +134,13 @@ void Camera::Apply() {
 }
 
 void Camera::Reset() {
-    this->fov_ = 60;
+    this->fov_ = 70;
     this->z_near_ = 0.1f;
     this->z_far_ = 100;
 
     this->eye_x_ = 0.0f;
-    this->eye_y_ = -0.0f;
-    this->eye_z_ = 1.0f;
+    this->eye_y_ = 3.2f;
+    this->eye_z_ = 4.0f;
 
     this->center_x_ = 0.0f;
     this->center_y_ = 0.0f;

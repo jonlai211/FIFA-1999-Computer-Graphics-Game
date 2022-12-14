@@ -20,9 +20,7 @@ void GameState::RenderScene() {
     football_yaw_ = camera_.yaw_;
     football_pitch_ = camera_.pitch_;
 
-//    PowerCalculate(1, football_yaw_, football_pitch_);
-
-    ShootScene();
+    InteractionScene();
 
     this->items_.DrawLawn();
     this->items_.DrawLight();
@@ -33,44 +31,79 @@ void GameState::RenderScene() {
     glutSwapBuffers();
 }
 
-void GameState::ShootScene() {
-    if (!FPS_mode) {
-        if (Shoot_Accumulate) {
-            accumulate_t += 0.25;
-            DisplayText(50, 650, "Argentina: ", 1);
-            DisplayAccumulateBar(1200, 360, accumulate_t);
-            if (accumulate_t >= 60.f) {
-                accumulate_t = 60.f;
-            }
+void GameState::InteractionScene() {
+    if (ShootingMode and !FreeMode) {
+        if (PowerAccumulate) {
+            shoot_yaw_ = camera_.yaw_;
+            shoot_pitch_ = camera_.pitch_;
+            init_y_ = football_y_;
+            init_x_ = football_x_;
+            init_z_ = football_z_;
+            VelocityCalculate(shoot_yaw_, shoot_pitch_);
         } else {
             accumulate_t = 0;
-        }
-    }
+            VerticalMovement(20);
+            HorizonMovement(init_v_horizon, shoot_yaw_);
+            if (init_v_horizon == 0 and init_v_vertical == 0){
 
-    if (!Shooting) {
-        football_x_ = camera_.eye_x_ - 10.f;
-        football_z_ = camera_.eye_z_ - 10.f;
-    } else {
-        if (y_move_) {
-            ty += 0.016;
-            football_y_ = init_y_ + init_velocity.y * ty - 0.5f * 80.0f * ty * ty;
-            if (football_y_ < 0) {
-                ty = 0.0f;
-                init_velocity.y = init_velocity.y * 0.8f;
-            }
-            if (init_velocity.y < 10) {
-                init_velocity.y = 0;
-                football_y_ = 1.1f;
-                y_move_ = not y_move_;
             }
         }
-        if (z_move_) {
-            tz += 0.016;
-            football_z_ = -(init_z_ + init_velocity.z * tz - 0.5f * 5.0f * tz * tz);
-            if ((init_velocity.z - 5.0f * tz) < 0) {
-                z_move_ = not z_move_;
-            }
-        }
+    } else if (!ShootingMode and !FreeMode) {
+        football_x_ = camera_.eye_x_;
+        football_z_ = camera_.eye_z_ - 4.f;
+    }
+}
+
+void GameState::VelocityCalculate(float yaw, float pitch) {
+    accumulate_t += 0.25;
+    if (accumulate_t >= 60.f) {
+        accumulate_t = 60.f;
+    }
+    DisplayAccumulateBar(1200, 360, accumulate_t);
+    init_v = 2 * accumulate_t;     // accumulate_t = 0-60
+
+    init_v_vertical = init_v * sin(pitch);
+    init_v_horizon = init_v * cos(pitch);
+    if (init_v_vertical >= 60) {
+        init_v_vertical = 60;
+    }
+    if (init_v_horizon >= 80) {
+        init_v_horizon = 80;
+    }
+}
+
+void GameState::VerticalMovement(float vy) {
+    float min_speed = 10;
+
+    ty += 0.016;
+    football_y_ = init_y_ + vy * ty - 0.5f * 80.0f * ty * ty;
+
+    if (vy < min_speed) {
+        vy = 0;
+        init_v_vertical = 0;
+        football_y_ = 1.1f;
+    }
+    if (football_y_ <= 0) {
+        ty = 0;
+        vy = vy * 0.8f;
+    }
+}
+
+void GameState::HorizonMovement(float v, float yaw){
+    float u = 10.0f;
+    float vx, vz;
+
+    tx += 0.016;
+    vx = v * sin(yaw);
+    vz = v * cos(yaw);
+    football_x_ = init_x_ + vx * tx - 0.5f * u * tx * tx;
+    football_z_ = init_z_ - (vz * tx - 0.5f * u * tx * tx);
+
+    if ((v - u * tx) < 0){
+        tx = 0;
+        v = 0;
+        init_x_ = football_x_;
+        init_z_ = football_z_;
     }
 }
 
@@ -160,15 +193,4 @@ void GameState::DisplayAccumulateBar(GLfloat x, GLfloat y, float t) {
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
     glEnable(GL_TEXTURE_2D);
-}
-
-void GameState::PowerCalculate(float t, float yaw, float pitch) {
-    init_v = 0.5f * t + 400;
-    init_velocity.x = init_v * sin(pitch);
-    init_velocity.y = init_v * sin(pitch) * cos(yaw);
-    init_velocity.z = init_v * sin(pitch) * sin(yaw);
-    float angle_pitch = std::asin(pitch);
-    float angle_yaw = std::acos(yaw);
-
-//    printf("pitch:%f; yaw:%f; vx:%f; vy:%f; vz:%f\n",angle_pitch,  init_velocity.x, init_velocity.y, init_velocity.z);
 }

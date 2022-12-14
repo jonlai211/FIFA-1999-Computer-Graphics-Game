@@ -35,7 +35,7 @@ public:
 private:
     Camera camera;
     GLUquadricObj *ball_quadric;
-    float ball_radius = 1;
+    float ball_radius = 0.35;
 };
 
 
