@@ -39,16 +39,15 @@ void GameState::InteractionScene() {
             init_y_ = football_y_;
             init_x_ = football_x_;
             init_z_ = football_z_;
-            printf("init_x:%f, init_z:%f\n", init_x_, init_z_);
+//            printf("init_x:%f, init_z:%f\n", init_x_, init_z_);
             VelocityCalculate(shoot_yaw_, shoot_pitch_);
             FinishAccumulate = true;
 //            printf(("init_x:%f; init_y:%f, ini_z:%f\n"), init_x_, init_y_, init_z_);
-        }
-        else if (!PowerAccumulate and FinishAccumulate){
+        } else if (!PowerAccumulate and FinishAccumulate) {
             accumulate_t = 0;
             VerticalMovement(init_v_vertical);
             HorizonMovement(init_v_horizon, shoot_yaw_);
-            if (init_v_horizon == 0 and init_v_vertical == 0){
+            if (init_v_horizon == 0 and init_v_vertical == 0) {
                 FinishAccumulate = false;
             }
         }
@@ -68,7 +67,7 @@ void GameState::VelocityCalculate(float yaw, float pitch) {
 
     init_v_vertical = init_v * sin(pitch);
     init_v_horizon = init_v * cos(pitch);
-    printf("init_v_vertical:%f, init_v_horizon:%f\n", init_v_vertical, init_v_horizon);
+//    printf("init_v_vertical:%f, init_v_horizon:%f\n", init_v_vertical, init_v_horizon);
     if (init_v_vertical >= 60) {
         init_v_vertical = 60;
     }
@@ -86,15 +85,15 @@ void GameState::VerticalMovement(float vy) {
         init_v_vertical = 0;
         football_y_ = 1.1f;
         VerticalMove = false;
-    } else{
+    } else {
         VerticalMove = true;
     }
 
-    if (VerticalMove){
+    if (VerticalMove) {
         ty += 0.016;
         relative_y_ = vy * ty - 0.5f * 80.0f * ty * ty;
         football_y_ = relative_y_ + init_y_;
-        printf("football_y:%f\n", football_y_);
+//        printf("football_y:%f\n", football_y_);
 
         if (football_y_ < 1.1) {
             ty = 0;
@@ -104,30 +103,28 @@ void GameState::VerticalMovement(float vy) {
     }
 }
 
-void GameState::HorizonMovement(float v, float yaw){
+void GameState::HorizonMovement(float v, float yaw) {
     float u = 10.0f;
     float vx, vz;
 
-    if ((v - u * tx) < 0){
+    if ((v - u * tx) < 0) {
         tx = 0;
         v = 0;
         init_v_horizon = 0;
         init_x_ = football_x_;
         init_z_ = football_z_;
         HorizonMove = false;
-    } else{
+    } else {
         HorizonMove = true;
     }
 
-    if (HorizonMove){
+    if (HorizonMove) {
         tx += 0.016;
-        vx = v * sin(yaw);
-        vz = v * cos(yaw);
-        relative_x_ = vx * tx - 0.5f * u * tx * tx;
-        relative_z_ = - (vz * tx - 0.5f * u * tx * tx);
-        football_x_ = relative_x_ + init_x_;
-        football_z_ = relative_z_ + init_z_;
-//    printf("football_x_:%f; football_z_:%f\n", football_x_, football_z_);
+        relative_horizon_ = -(v * tx - 0.5f * u * tx * tx);
+        printf("v:%f\n", (v - u * tx));
+        football_x_ = init_x_ + relative_horizon_ * sin(yaw);
+        football_z_ = init_z_ + relative_horizon_ * cos(yaw);
+        printf("football_x_:%f\n", football_x_);
     }
 }
 

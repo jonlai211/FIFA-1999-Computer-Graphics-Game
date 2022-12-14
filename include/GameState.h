@@ -80,7 +80,7 @@ private:
     bool HorizonMove = false, VerticalMove = false;
     float shoot_yaw_ = 0, shoot_pitch_ = 0;
     float init_v_vertical, init_v_horizon;
-    float relative_x_, relative_y_, relative_z_;
+    float relative_x_, relative_y_, relative_z_, relative_horizon_;
 
 
     bool y_move_ = false, z_move_ = false;
