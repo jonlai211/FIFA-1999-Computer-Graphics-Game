@@ -15,12 +15,19 @@ void GameState::MousePress(int button, int state, int x, int y) {
         } else if (state == GLUT_UP)
             mouse_.mouse_left_down_ = false;
     }
+
+    if (button == GLUT_RIGHT_BUTTON) {
+        if (state == GLUT_DOWN){
+            Shoot_Accumulate = not Shoot_Accumulate;
+        }
+    }
 }
 
 void GameState::MouseControl(int x, int y) {
     if (mouse_.mouse_left_down_) {
+        printf("x:%d; y:%d\n", x, y);
         camera_.Rotate(x - mouse_.mouse_x_, y - mouse_.mouse_y_);
-//        printf("RotateX:%d; Rotate:%d\n", x - mouse_.mouse_x_, y - mouse_.mouse_y_);
+        printf("RotateX:%d; Rotate:%d\n", x - mouse_.mouse_x_, y - mouse_.mouse_y_);
         mouse_.mouse_x_ = x;
         mouse_.mouse_y_ = y;
     }

@@ -7,11 +7,15 @@
 #define FREEGLUT_STATIC
 
 #include <GL/freeglut.h>
+#include "vector"
+
 #include "Assessment2/include/Vector3.h"
 #include "Assessment2/include/Transform.h"
 #include "Assessment2//include/Texture.h"
 #include "Assessment2/include/Items.h"
 #include "Assessment2/include/Camera.h"
+
+using namespace std;
 
 class Football {
 public:
@@ -27,10 +31,10 @@ public:
 
     Transform transform;
 
+    Texture football_texture_ = Texture("../Assessment2/images/football.bmp");
 private:
     Camera camera;
     GLUquadricObj *ball_quadric;
-    Texture ball_texture_ = Texture("../Assessment2/images/football.jpg");
     float ball_radius = 1;
 };
 

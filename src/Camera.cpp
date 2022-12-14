@@ -10,7 +10,7 @@ Camera::Camera() {
     this->z_far_ = 100;
     this->aspect_ratio_ = (float) (INIT_WINDOW_WIDTH / INIT_WINDOW_HEIGHT);
 
-    this->eye_x_ = 0.0f;
+    this->eye_x_ = 10.0f;
     this->eye_y_ = 20.0f;
     this->eye_z_ = 10.0f;
 
@@ -99,8 +99,8 @@ void Camera::MoveRight() {
 
 void Camera::Rotate(int dt_x, int dt_y) {
 //    printf("dt_x:%.d; dt_y:%.d\n", dt_x, dt_y);
-    this->yaw_ += (float) dt_x / 600;
-    this->pitch_ += (float) dt_y / 600;
+    this->yaw_ += (float) dt_x / 640;
+    this->pitch_ += (float) dt_y / 640;
 //    printf("yaw:%.f; pitch:%.f\n", yaw_, pitch_);
     this->Apply();
 }

@@ -4,7 +4,7 @@
 
 #include "Assessment2/include/Items.h"
 
-Items::Items() = default;
+Items::Items(const Football& football) : football(football) {};
 
 Items::~Items() = default;
 
@@ -43,15 +43,7 @@ void Items::DrawLight() {
 //    glPopMatrix();
 }
 
-void Items::DrawFootball() {
-//    glPushMatrix();
-//    glTranslatef(0, -1, 0);
-//    glScalef(0.03, 0.03, 0.03);
-//    glutSolidSphere(2, 20, 20);
-//    glPopMatrix();
-}
-
 void Items::LoadAll() {
     this->lawn_.Load();
-    this->football_.Load();
+    this->football.football_texture_.Load();
 }

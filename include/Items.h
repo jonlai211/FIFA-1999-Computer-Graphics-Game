@@ -12,8 +12,6 @@
 #include <GL/freeglut.h>
 #include <cstdio>
 
-#define USE_MATH_DEFINES
-
 #include <cmath>
 
 #include "Assessment2/include/Texture.h"
@@ -23,7 +21,7 @@
 
 class Items {
 public:
-    Items();
+    Items(const Football& football);
 
     ~Items();
 
@@ -33,11 +31,8 @@ public:
 
     void DrawLight();
 
-    void DrawFootball();
-
-    Texture football_ = Texture("../Assessment2/images/football.jpg");
-
 private:
+    Football football;
     Texture lawn_ = Texture("../Assessment2/images/lawn.jpg");
 };
 

@@ -4,7 +4,7 @@
 
 #include "Assessment2/include/GameState.h"
 
-GameState::GameState(bool debug_mode) {
+GameState::GameState(bool debug_mode) : items_(Football(0, 0, 0)) {
     this->debug_mode_ = debug_mode;
     LOGI("Game object created");
 }

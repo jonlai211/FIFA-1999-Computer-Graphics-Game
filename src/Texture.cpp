@@ -8,7 +8,7 @@
 
 Texture::Texture(const char *path) {
     stbi_set_flip_vertically_on_load(true);
-    data_ = stbi_load(path, &width_, &height_, &channels_, 0);
+    data_ = stbi_load(path, &width_, &height_, &channels_, 0 );
 }
 
 

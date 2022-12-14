@@ -10,6 +10,7 @@
 #include <GL/freeglut.h>
 #include <iostream>
 #include <cmath>
+#include <algorithm>
 
 #include "Assessment2/include/Keyboard.h"
 #include "Assessment2/include/Mouse.h"
@@ -24,47 +25,61 @@ public:
     std::string window_title_;
 
     explicit GameState(bool debug_mode);
+
     ~GameState();
+
     void Setup();
+
     static void Loop();
-    void ShootCheck();
 
     // Callback functions
-    void KeyboardControl (unsigned char key, int x, int y);
-    void MousePress(int button, int state, int x, int y);
-    void MouseControl (int x, int y);
+    void KeyboardControl(unsigned char key, int x, int y);
 
-    // Rendering functions
-    void RenderScene();
+    void KeyboardSpecialCallback(int key, int x, int y);
+
+    void MousePress(int button, int state, int x, int y);
+
+    void MouseControl(int x, int y);
 
     void ReshapeCallback(int width, int height);
 
     void IdleCallback();
+
+    // Rendering functions
+    void RenderScene();
+
+    void ShootScene();
+
+    void DisplayText(GLfloat x, GLfloat y, const std::string& message, int num) const;
+
+    static void DisplayAccumulateBar(GLfloat x, GLfloat y, float t);
+
+    // Others
+
+    void PowerCalculate(float t, float yaw, float pitch);
+
+    void *font = GLUT_BITMAP_9_BY_15;
 
 private:
     Camera camera_;
     Mouse mouse_;
     Lighting lighting_;
     Items items_;
-    Football football_ = Football(0, 0, 0);
+    Football football_ = Football(0, 1.1, 0);
 
     bool debug_mode_;
-    bool Shooting = false;
-    float football_x, football_y, football_z;
-    float friction_force;
-    float air_resistance_x, air_resistance_y, air_resistance_xyz, air_resistance_zyx, air_resistance_yzx;
-    float U = 5, M = 0.2, G = -0.098, W;
-    float L = 0.01, K = 0.4, P = 1.225, R = 5,Pi = 3.14, Spin_Multiplier = 3, SMM;
-    float magnus_effect_x, magnus_effect_y, magnus_effect_z;
+    bool FPS_mode = false;
+    bool Shooting = false, y_move_ = false, z_move_ = false;
+    bool Shoot_Accumulate = false;
+    float football_x_, football_y_ = 1.1f, football_z_;
+    float football_yaw_, football_pitch_;
+    float ty = 0.0f, tz =0.0f;
+    float init_y_ = 1.1f, init_z_ = 0.0f, temp_y_ = 0.0f, temp_z_ = 0.0f;
+    float accumulate_t = 0.f;
+    float init_v = 0;
 
-    Vector3 init_velocity = {0, 2, 2};
-    Vector3 gravity = {0, G, 0};
+    Vector3 init_velocity = {0, 40, 80};
     Vector3 ball_velocity;
-    Vector3 wind_speed = {0, 0, 0};
-    Vector3 Magnus_effect;
-    Vector3 external_force;
-
-    float v0 = 10, f = 0.01, v;
 };
 
 

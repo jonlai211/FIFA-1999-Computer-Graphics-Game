@@ -64,13 +64,13 @@ public:
     void Apply();
 
     float eye_x_, eye_y_, eye_z_;
+    float yaw_, pitch_;
 
 private:
     float fov_;
     float aspect_ratio_;
     float z_near_, z_far_;
     float center_x_, center_y_, center_z_;
-    float yaw_, pitch_;
 //    bool FPS = false;
     bool FPS = true;
 

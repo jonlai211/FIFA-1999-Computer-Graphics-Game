@@ -28,12 +28,21 @@ void KeyboardCallback(unsigned char key, int x, int y) {
     gameState.KeyboardControl(key, x, y);
 }
 
+void SpecialKeyCallback(int key, int x, int y) {
+    gameState.KeyboardSpecialCallback(key, x, y);
+}
+
 void ReshapeCallback(int width, int height) {
     gameState.ReshapeCallback(width, height);
 }
 
 void IdleCallback() {
     gameState.IdleCallback();
+}
+
+void TimerFunc(int value) {
+    glutPostRedisplay();
+    glutTimerFunc(1000/60, TimerFunc, 1);
 }
 
 int main(int argc, char *argv[]) {
@@ -45,9 +54,11 @@ int main(int argc, char *argv[]) {
     glutDisplayFunc(RenderCallback);
     glutReshapeFunc(ReshapeCallback);
     glutKeyboardFunc(KeyboardCallback);
+    glutSpecialFunc(SpecialKeyCallback);
     glutMouseFunc(MouseCallback);
     glutMotionFunc(MouseMotionCallback);
-    glutIdleFunc(IdleCallback);
+//    glutIdleFunc(IdleCallback);
+    glutTimerFunc(1000/60, TimerFunc, 1);
 
     /* Start rendering */
     gameState.Loop();

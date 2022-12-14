@@ -21,9 +21,10 @@ public:
 
     GLuint GetID();
 
+    GLint width_, height_, channels_;
 private:
     GLuint id_;
-    GLint width_, height_, channels_;
+
     unsigned char *data_;
 };
 
