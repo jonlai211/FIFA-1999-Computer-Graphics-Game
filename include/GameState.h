@@ -76,13 +76,14 @@ private:
 
     bool ShootingMode = false, FreeMode = false;
     bool PowerAccumulate = false;
+    bool FinishAccumulate = false;
     bool HorizonMove = false, VerticalMove = false;
     float shoot_yaw_ = 0, shoot_pitch_ = 0;
-    float init_v_vertical = 0, init_v_horizon = 0;
+    float init_v_vertical, init_v_horizon;
+    float relative_x_, relative_y_, relative_z_;
 
 
     bool y_move_ = false, z_move_ = false;
-    bool Shoot_Accumulate = false;
     float football_x_, football_y_ = 1.1f, football_z_;
     float football_yaw_, football_pitch_;
     float ty = 0.0f, tx =0.0f;

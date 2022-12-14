@@ -19,7 +19,9 @@ void GameState::MousePress(int button, int state, int x, int y) {
 
     if (button == GLUT_RIGHT_BUTTON) {
         if (state == GLUT_DOWN) {
-            PowerAccumulate = not PowerAccumulate;
+            if (ShootingMode){
+                PowerAccumulate = not PowerAccumulate;
+            }
         }
     }
 }

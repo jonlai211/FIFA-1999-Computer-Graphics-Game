@@ -5,7 +5,7 @@
 #include "Assessment2/include/Camera.h"
 
 Camera::Camera() {
-    this->fov_ = 70;
+    this->fov_ = 100;
     this->z_near_ = 0.1f;
     this->z_far_ = 100;
     this->aspect_ratio_ = (float) (INIT_WINDOW_WIDTH / INIT_WINDOW_HEIGHT);
@@ -134,7 +134,7 @@ void Camera::Apply() {
 }
 
 void Camera::Reset() {
-    this->fov_ = 70;
+    this->fov_ = 100;
     this->z_near_ = 0.1f;
     this->z_far_ = 100;
 
