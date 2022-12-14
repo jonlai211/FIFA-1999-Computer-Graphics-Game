@@ -19,6 +19,8 @@ void GameState::RenderScene() {
 
     football_yaw_ = camera_.yaw_;
     football_pitch_ = camera_.pitch_;
+    DisplayText(1000, 700, "Yaw   Angle: ", int(football_yaw_ * 180 / M_PI));
+    DisplayText(1000, 680, "Pitch Angle: ", int(football_pitch_ * 180 / M_PI));
 
     InteractionScene();
 
@@ -43,17 +45,32 @@ void GameState::InteractionScene() {
             VelocityCalculate(shoot_yaw_, shoot_pitch_);
             FinishAccumulate = true;
 //            printf(("init_x:%f; init_y:%f, ini_z:%f\n"), init_x_, init_y_, init_z_);
-        } else if (!PowerAccumulate and FinishAccumulate) {
+        } else if ((!PowerAccumulate && FinishAccumulate) or Reflect) {
             accumulate_t = 0;
+            CollisionCheck(football_x_, football_z_);
             VerticalMovement(init_v_vertical);
             HorizonMovement(init_v_horizon, shoot_yaw_);
             if (init_v_horizon == 0 and init_v_vertical == 0) {
                 FinishAccumulate = false;
             }
+            Reflect = false;
         }
     } else if (!ShootingMode and !FreeMode) {
-        football_x_ = camera_.eye_x_;
-        football_z_ = camera_.eye_z_ - 4.f;
+        AlwaysForward(camera_.eye_x_, camera_.eye_z_, camera_.yaw_);
+    }
+}
+
+void GameState::CollisionCheck(float x, float z) {
+    if (z > 50) {
+        collision_wall_num = 1; // hit front wall
+    } else if (z < -50) {
+        collision_wall_num = 2; // hit back wall
+    } else if (x > 30) {
+        collision_wall_num = 3; // hit left wall
+    } else if (x < -30) {
+        collision_wall_num = 4; // hit right wall
+    } else {
+        collision_wall_num = 0;
     }
 }
 
@@ -121,11 +138,57 @@ void GameState::HorizonMovement(float v, float yaw) {
     if (HorizonMove) {
         tx += 0.016;
         relative_horizon_ = -(v * tx - 0.5f * u * tx * tx);
-        printf("v:%f\n", (v - u * tx));
+//        printf("v:%f\n", (v - u * tx));
         football_x_ = init_x_ + relative_horizon_ * sin(yaw);
         football_z_ = init_z_ + relative_horizon_ * cos(yaw);
-        printf("football_x_:%f\n", football_x_);
+//        printf("football_x_:%f\n", football_x_);
+
+        switch (collision_wall_num) {
+            case 1:
+                init_v_horizon = -(init_v_horizon - u * tx);
+                tx = 0;
+                football_z_ = 50;
+                init_z_ = 50;
+                init_x_ = football_x_;
+                Reflect = true;
+                break;
+            case 2:
+                init_v_horizon = -(init_v_horizon - u * tx);
+                tx = 0;
+                football_z_ = -50;
+                init_z_ = -50;
+                init_x_ = football_x_;
+                Reflect = true;
+                break;
+            case 3:
+                init_v_horizon = -(init_v_horizon - u * tx);
+                tx = 0;
+                football_x_ = 30;
+                init_x_ = 30;
+                init_z_ = football_z_;
+                Reflect = true;
+                break;
+            case 4:
+                init_v_horizon = -(init_v_horizon - u * tx);
+                tx = 0;
+                football_x_ = -30;
+                init_x_ = -30;
+                init_z_ = football_z_;
+                Reflect = true;
+                break;
+            case 0:
+                break;
+        }
     }
+}
+
+void GameState::AlwaysForward(float x, float z, float yaw) {
+    football_x_ = x - sin(yaw) * 4;
+    football_z_ = z - cos(yaw) * 4;
+}
+
+void GameState::ResetBallPosition() {
+    AlwaysForward(camera_.eye_x_, camera_.eye_z_, camera_.yaw_);
 }
 
 void GameState::DisplayText(GLfloat x, GLfloat y, const std::string &message, int num) const {

@@ -55,6 +55,11 @@ public:
     static void DisplayAccumulateBar(GLfloat x, GLfloat y, float t);
 
     // Others
+    void AlwaysForward(float x, float z, float yaw);
+
+    void ResetBallPosition();
+
+    void CollisionCheck(float x, float z);
 
     void VelocityCalculate(float yaw, float pitch);
 
@@ -78,9 +83,12 @@ private:
     bool PowerAccumulate = false;
     bool FinishAccumulate = false;
     bool HorizonMove = false, VerticalMove = false;
+    bool ResetBall = false;
+    bool Reflect = false;
     float shoot_yaw_ = 0, shoot_pitch_ = 0;
     float init_v_vertical, init_v_horizon;
     float relative_x_, relative_y_, relative_z_, relative_horizon_;
+    int collision_wall_num = 0;
 
 
     bool y_move_ = false, z_move_ = false;

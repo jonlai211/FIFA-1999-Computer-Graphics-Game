@@ -103,7 +103,7 @@ void Camera::Rotate(int dt_x, int dt_y) {
     this->pitch_ += (float) dt_y / 600;
     this->real_yaw_ = real_yaw_ + std::asin((float) dt_x / 600) * 180 / M_PI;
     this->real_pitch_ = real_pitch_ + std::asin((float) dt_y / 600) * 180 / M_PI;
-    printf("real_yaw:%f; real_pitch:%f\n", real_yaw_, real_pitch_);
+//    printf("real_yaw:%f; real_pitch:%f\n", real_yaw_, real_pitch_);
     this->Apply();
 }
 

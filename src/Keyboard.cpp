@@ -31,7 +31,8 @@ void GameState::KeyboardControl(unsigned char key, int x, int y) {
         switch (key) {
             case 'r':
                 LOGI("Resetting Layout & Camera...");
-                camera_.Reset();
+//                camera_.Reset();
+                ResetBallPosition();
                 break;
             case 'a':
                 camera_.MoveLeft();
