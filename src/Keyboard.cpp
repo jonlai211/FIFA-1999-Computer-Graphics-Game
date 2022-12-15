@@ -11,6 +11,8 @@ void GameState::KeyboardControl(unsigned char key, int x, int y) {
         exit(0);
     } else if (key == '1') {
         ShootingMode = not ShootingMode;
+    } else if (key == '2'){
+        PenaltyMode = not PenaltyMode;
     } else {
         LOGI("Key pressed: %c", key);
         switch (key) {

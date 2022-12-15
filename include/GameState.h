@@ -69,6 +69,8 @@ public:
 
     void HorizonMovement(float v, float yaw);
 
+    void InitPenalty();
+
     void *font = GLUT_BITMAP_9_BY_15;
 
 private:
@@ -84,6 +86,7 @@ private:
     bool ShootingMode = false, FreeMode = false;
     bool PowerAccumulate = false;
     bool FinishAccumulate = false;
+    bool PenaltyMode = false;
     bool HorizonMove = false, VerticalMove = false;
     bool ResetBall = false;
     bool Reflect = false;

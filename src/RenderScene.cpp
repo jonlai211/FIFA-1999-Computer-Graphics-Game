@@ -38,18 +38,27 @@ void GameState::RenderScene() {
 }
 
 void GameState::InteractionScene() {
-    if (ShootingMode){
-        DisplayTextOnly(20, 700, "Mode Shooting On!");
-    } else{
-        DisplayTextOnly(20, 700, "Mode Shooting Off!");
-    }
     if (FreeMode){
-        DisplayTextOnly(20, 680, "Mode FreePlay On!");
+        DisplayTextOnly(20, 700, "Mode FreePlay On!");
     } else{
-        DisplayTextOnly(20, 680, "Mode FreePlay Off!");
+        DisplayTextOnly(20, 700, "Mode FreePlay Off!");
+    }
+    if (ShootingMode){
+        DisplayTextOnly(20, 680, "Mode Shooting On!");
+    } else{
+        DisplayTextOnly(20, 680, "Mode Shooting Off!");
+    }
+    if (PenaltyMode){
+        DisplayTextOnly(20, 660, "Mode FreePlay On!");
+    } else{
+        DisplayTextOnly(20, 660, "Mode FreePlay Off!");
     }
 
     if (ShootingMode and !FreeMode) {
+        if (PenaltyMode){
+            InitPenalty();
+            PenaltyMode = false;
+        }
         if (PowerAccumulate) {
             shoot_yaw_ = camera_.yaw_;
             shoot_pitch_ = camera_.pitch_;
@@ -207,6 +216,15 @@ void GameState::AlwaysForward(float x, float z, float yaw) {
 
 void GameState::ResetBallPosition() {
     AlwaysForward(camera_.eye_x_, camera_.eye_z_, camera_.yaw_);
+}
+
+void GameState::InitPenalty() {
+    camera_.eye_x_ = 0.f;
+    camera_.eye_y_ = 0.0f;
+    camera_.eye_z_ = -31.f;
+    football_x_ = 0.f;
+    football_y_ = 1.1f;
+    football_z_ = -35.5f;
 }
 
 void GameState::DisplayText(GLfloat x, GLfloat y, const std::string &message, int num) const {
