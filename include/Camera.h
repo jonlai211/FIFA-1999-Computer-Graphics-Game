@@ -66,9 +66,9 @@ public:
     float eye_x_, eye_y_, eye_z_;
     float yaw_, pitch_;
     float real_yaw_, real_pitch_;
+    float fov_;
 
 private:
-    float fov_;
     float aspect_ratio_;
     float z_near_, z_far_;
     float center_x_, center_y_, center_z_;

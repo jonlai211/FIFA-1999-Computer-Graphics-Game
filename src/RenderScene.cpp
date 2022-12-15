@@ -11,6 +11,7 @@ void GameState::RenderScene() {
     glPushMatrix();
 
     lighting_.Apply();
+    camera_.Apply();
 
     glTranslatef(0.0, 0.0, 1.0);
     glEnable(GL_LIGHTING);
@@ -19,8 +20,9 @@ void GameState::RenderScene() {
 
     football_yaw_ = camera_.yaw_;
     football_pitch_ = camera_.pitch_;
-    DisplayText(1120, 700, "Yaw   Angle: ", int(football_yaw_ * 180 / M_PI));
-    DisplayText(1120, 680, "Pitch Angle: ", int(football_pitch_ * 180 / M_PI));
+    DisplayText(1120, 700, "FOV         : ", int(camera_.fov_));
+    DisplayText(1120, 680, "Yaw   Angle : ", int(football_yaw_ * 180 / M_PI));
+    DisplayText(1120, 660, "Pitch Angle : ", int(football_pitch_ * 180 / M_PI));
 
     InteractionScene();
 

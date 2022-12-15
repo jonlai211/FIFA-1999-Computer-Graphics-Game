@@ -36,6 +36,19 @@ void GameState::MouseControl(int x, int y) {
     }
 }
 
+void GameState::MouseWheelCallback(int button, int dir, int x, int y) {
+    if (dir > 0) {
+        camera_.fov_ += 2;
+    } else {
+        camera_.fov_ -= 2;
+    }
+//    if (dir > 0) {
+//        lighting_.Brighter();
+//    } else {
+//        lighting_.Darker();
+//    }
+}
+
 Mouse::Mouse() {
     this->mouse_x_ = 0;
     this->mouse_y_ = 0;

@@ -24,6 +24,10 @@ void MouseMotionCallback(int x, int y) {
     gameState.MouseControl(x, y);
 }
 
+void MouseWheelCallback(int wheel, int direction, int x, int y) {
+    gameState.MouseWheelCallback(wheel, direction, x, y);
+}
+
 void KeyboardCallback(unsigned char key, int x, int y) {
     gameState.KeyboardControl(key, x, y);
 }
@@ -57,6 +61,7 @@ int main(int argc, char *argv[]) {
     glutSpecialFunc(SpecialKeyCallback);
     glutMouseFunc(MouseCallback);
     glutMotionFunc(MouseMotionCallback);
+    glutMouseWheelFunc(MouseWheelCallback);
 //    glutIdleFunc(IdleCallback);
     glutTimerFunc(1000/60, TimerFunc, 1);
 

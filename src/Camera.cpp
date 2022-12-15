@@ -108,6 +108,9 @@ void Camera::Rotate(int dt_x, int dt_y) {
 }
 
 void Camera::Apply() {
+    if (fov_ < 50) fov_ = 50;
+    if (fov_ > 110) fov_ = 110;
+
     if (pitch_ < -1.5) pitch_ = -1.5;
     if (pitch_ > 1.5) pitch_ = 1.5;
 

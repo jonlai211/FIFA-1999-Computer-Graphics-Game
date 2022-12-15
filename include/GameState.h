@@ -41,6 +41,8 @@ public:
 
     void MouseControl(int x, int y);
 
+    void MouseWheelCallback(int button, int dir, int x, int y);
+
     void ReshapeCallback(int width, int height);
 
     void IdleCallback();
