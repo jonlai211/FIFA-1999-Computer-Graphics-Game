@@ -35,6 +35,7 @@ void GameState::Setup() {
     LOGI("OpenGL initialized");
 
     this->items_.LoadAll();
+    this->football_.football_texture_.Load();
     LOGI("Texture loaded");
 }
 

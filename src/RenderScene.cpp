@@ -19,14 +19,18 @@ void GameState::RenderScene() {
 
     football_yaw_ = camera_.yaw_;
     football_pitch_ = camera_.pitch_;
-    DisplayText(1000, 700, "Yaw   Angle: ", int(football_yaw_ * 180 / M_PI));
-    DisplayText(1000, 680, "Pitch Angle: ", int(football_pitch_ * 180 / M_PI));
+    DisplayText(1120, 700, "Yaw   Angle: ", int(football_yaw_ * 180 / M_PI));
+    DisplayText(1120, 680, "Pitch Angle: ", int(football_pitch_ * 180 / M_PI));
 
     InteractionScene();
 
     this->items_.DrawLawn();
-    this->items_.DrawLight();
+    this->items_.DrawGoal();
+    this->items_.DrawBorder();
+    this->items_.DrawSeat();
+
     this->football_.DrawFootball(football_x_, football_y_, football_z_);
+//    printf("football_x:%f, football_y:%f, football_z:%f\n", football_x_, football_y_, football_z_);
 
     glPopMatrix();
     glFlush();
@@ -34,6 +38,17 @@ void GameState::RenderScene() {
 }
 
 void GameState::InteractionScene() {
+    if (ShootingMode){
+        DisplayTextOnly(20, 700, "Mode Shooting On!");
+    } else{
+        DisplayTextOnly(20, 700, "Mode Shooting Off!");
+    }
+    if (FreeMode){
+        DisplayTextOnly(20, 680, "Mode FreePlay On!");
+    } else{
+        DisplayTextOnly(20, 680, "Mode FreePlay Off!");
+    }
+
     if (ShootingMode and !FreeMode) {
         if (PowerAccumulate) {
             shoot_yaw_ = camera_.yaw_;
@@ -45,7 +60,7 @@ void GameState::InteractionScene() {
             VelocityCalculate(shoot_yaw_, shoot_pitch_);
             FinishAccumulate = true;
 //            printf(("init_x:%f; init_y:%f, ini_z:%f\n"), init_x_, init_y_, init_z_);
-        } else if ((!PowerAccumulate && FinishAccumulate) or Reflect) {
+        } else if (!PowerAccumulate and FinishAccumulate) {
             accumulate_t = 0;
             CollisionCheck(football_x_, football_z_);
             VerticalMovement(init_v_vertical);
@@ -53,7 +68,6 @@ void GameState::InteractionScene() {
             if (init_v_horizon == 0 and init_v_vertical == 0) {
                 FinishAccumulate = false;
             }
-            Reflect = false;
         }
     } else if (!ShootingMode and !FreeMode) {
         AlwaysForward(camera_.eye_x_, camera_.eye_z_, camera_.yaw_);
@@ -61,13 +75,13 @@ void GameState::InteractionScene() {
 }
 
 void GameState::CollisionCheck(float x, float z) {
-    if (z > 50) {
+    if (z > 48) {
         collision_wall_num = 1; // hit front wall
-    } else if (z < -50) {
+    } else if (z < -48) {
         collision_wall_num = 2; // hit back wall
-    } else if (x > 30) {
+    } else if (x > 28) {
         collision_wall_num = 3; // hit left wall
-    } else if (x < -30) {
+    } else if (x < -28) {
         collision_wall_num = 4; // hit right wall
     } else {
         collision_wall_num = 0;
@@ -147,34 +161,38 @@ void GameState::HorizonMovement(float v, float yaw) {
             case 1:
                 init_v_horizon = -(init_v_horizon - u * tx);
                 tx = 0;
-                football_z_ = 50;
-                init_z_ = 50;
+                football_z_ = 48;
+                init_z_ = 48;
                 init_x_ = football_x_;
                 Reflect = true;
+                collision_wall_num = 0;
                 break;
             case 2:
                 init_v_horizon = -(init_v_horizon - u * tx);
                 tx = 0;
-                football_z_ = -50;
-                init_z_ = -50;
+                football_z_ = -48;
+                init_z_ = -48;
                 init_x_ = football_x_;
                 Reflect = true;
+                collision_wall_num = 0;
                 break;
             case 3:
                 init_v_horizon = -(init_v_horizon - u * tx);
                 tx = 0;
-                football_x_ = 30;
-                init_x_ = 30;
+                football_x_ = 28;
+                init_x_ = 28;
                 init_z_ = football_z_;
                 Reflect = true;
+                collision_wall_num = 0;
                 break;
             case 4:
                 init_v_horizon = -(init_v_horizon - u * tx);
                 tx = 0;
-                football_x_ = -30;
-                init_x_ = -30;
+                football_x_ = -28;
+                init_x_ = -28;
                 init_z_ = football_z_;
                 Reflect = true;
+                collision_wall_num = 0;
                 break;
             case 0:
                 break;
@@ -208,6 +226,34 @@ void GameState::DisplayText(GLfloat x, GLfloat y, const std::string &message, in
     glPushMatrix();
     if (num < 0) { glColor3f(1.0, 0.0, 0.0); } // Red
     else { glColor3f(0.0, 0.0, 0.0); } // Green
+    glRasterPos2i(int(x), int(y));
+
+    for (std::string::iterator i = output.begin(); i != output.end(); ++i) // Iterator for message.
+    {
+        char c = *i;
+        glutBitmapCharacter(font, c);
+    }
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
+    glEnable(GL_TEXTURE_2D);
+}
+
+void GameState::DisplayTextOnly(GLfloat x, GLfloat y, const std::string& message) const {
+    glDisable(GL_TEXTURE_2D);
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D(0.0, INIT_WINDOW_WIDTH, 0.0, INIT_WINDOW_HEIGHT);
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+    glRasterPos2i(10, 10);
+
+    std::string output = message;
+    glPushMatrix();
+    glColor3f(0.0, 0.0, 0.0);
     glRasterPos2i(int(x), int(y));
 
     for (std::string::iterator i = output.begin(); i != output.end(); ++i) // Iterator for message.

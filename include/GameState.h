@@ -52,6 +52,8 @@ public:
 
     void DisplayText(GLfloat x, GLfloat y, const std::string& message, int num) const;
 
+    void DisplayTextOnly(GLfloat x, GLfloat y, const std::string& message) const;
+
     static void DisplayAccumulateBar(GLfloat x, GLfloat y, float t);
 
     // Others

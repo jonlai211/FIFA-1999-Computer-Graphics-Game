@@ -5,12 +5,12 @@
 #include "Assessment2/include/Lighting.h"
 
 Lighting::Lighting() {
-    brightness_ = 0.25;
+    brightness_ = 0.15;
 }
 
 void Lighting::Apply() {
-    GLfloat light_0_pos[] = {0.0, 100.0, -300.0, 1.0};
-    GLfloat light_0_ambient[] = {0.2, 0.2, 0.2, 0.3f};
+    GLfloat light_0_pos[] = {0.0, 100.0, 0.0, 1.0};
+    GLfloat light_0_ambient[] = {0.01, 0.01, 0.01, 0.01f};
     GLfloat light_0_diffuse[] = {1.0, 1.0, 1.0, 0.3};
 
     glLightfv(GL_LIGHT0, GL_POSITION, light_0_pos);
@@ -19,7 +19,7 @@ void Lighting::Apply() {
 //    glLightfv(GL_LIGHT0, GL_SPECULAR, light_0_ambient);
 
     GLfloat light_1_pos[] = {0.0, 0.0, 0.0, 1.0};
-    GLfloat light_1_ambient[] = {0.1, 0.1, 0.1, 0.3};
+    GLfloat light_1_ambient[] = {0.01, 0.01, 0.01, 0.01f};
     GLfloat light_1_diffuse[] = {0.1, 0.1, 0.1, 0.3};
 
     glLightfv(GL_LIGHT1, GL_POSITION, light_1_pos);

@@ -5,9 +5,9 @@
 #include "Assessment2/include/Camera.h"
 
 Camera::Camera() {
-    this->fov_ = 100;
+    this->fov_ = 70;
     this->z_near_ = 0.1f;
-    this->z_far_ = 100;
+    this->z_far_ = 140;
     this->aspect_ratio_ = (float) (INIT_WINDOW_WIDTH / INIT_WINDOW_HEIGHT);
 
     this->eye_x_ = 0.0f;
@@ -136,7 +136,7 @@ void Camera::Apply() {
 void Camera::Reset() {
     this->fov_ = 100;
     this->z_near_ = 0.1f;
-    this->z_far_ = 100;
+    this->z_far_ = 140;
 
     this->eye_x_ = 0.0f;
     this->eye_y_ = 3.2f;

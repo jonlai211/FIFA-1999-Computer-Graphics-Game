@@ -29,11 +29,16 @@ public:
 
     void DrawLawn();
 
-    void DrawLight();
+    static void DrawGoal();
+
+    static void DrawBorder();
+
+    static void DrawSeat();
 
 private:
     Football football;
     Texture lawn_ = Texture("../Assessment2/images/lawn.jpg");
+    Texture barca_ = Texture("../Assessment2/images/barca.jpg");
 };
 
 #endif //CPT205_ITEMS_H

@@ -23,7 +23,7 @@ public:
 
     ~Football();
 
-    bool CollisionCheck();
+    static bool CollisionCheck(float x, float z);
 
     void DrawFootball(float x, float y, float z);
 
@@ -31,7 +31,8 @@ public:
 
     Transform transform;
 
-    Texture football_texture_ = Texture("../Assessment2/images/football.bmp");
+    Texture football_texture_ = Texture("../Assessment2/images/ball.jpg");
+
 private:
     Camera camera;
     GLUquadricObj *ball_quadric;

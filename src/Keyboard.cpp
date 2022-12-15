@@ -9,23 +9,8 @@ void GameState::KeyboardControl(unsigned char key, int x, int y) {
     if (key == 'q' || key == 'Q' || key == 27) {
         LOGI("Quitting...");
         exit(0);
-    } else if (key == ' ') {
-        if (ShootingMode) {
-            y_move_ = not y_move_;
-            z_move_ = not z_move_;
-        }
-        if (y_move_ and z_move_) {
-            printf("Move!\n");
-        } else {
-            printf("Stay!\n");
-        }
     } else if (key == '1') {
         ShootingMode = not ShootingMode;
-        if (ShootingMode) {
-            printf("Shooting Mode On!\n");
-        } else {
-            printf("Shooting Mode Off\n");
-        }
     } else {
         LOGI("Key pressed: %c", key);
         switch (key) {
