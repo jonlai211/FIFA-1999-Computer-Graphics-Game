@@ -73,6 +73,8 @@ public:
 
     void InitPenalty();
 
+    void ScoreCheck();
+
     void *font = GLUT_BITMAP_9_BY_15;
 
 private:
@@ -89,6 +91,7 @@ private:
     bool PowerAccumulate = false;
     bool FinishAccumulate = false;
     bool PenaltyMode = false;
+    bool TargetShow = false;
     bool HorizonMove = false, VerticalMove = false;
     bool ResetBall = false;
     bool Reflect = false;

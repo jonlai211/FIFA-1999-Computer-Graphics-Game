@@ -20,9 +20,9 @@ void GameState::RenderScene() {
 
     football_yaw_ = camera_.yaw_;
     football_pitch_ = camera_.pitch_;
-    DisplayText(1120, 700, "FOV         : ", int(camera_.fov_));
-    DisplayText(1120, 680, "Yaw   Angle : ", int(football_yaw_ * 180 / M_PI));
-    DisplayText(1120, 660, "Pitch Angle : ", int(football_pitch_ * 180 / M_PI));
+    DisplayText(1105, 700, "FOV         : ", int(camera_.fov_));
+    DisplayText(1105, 680, "Yaw   Angle : ", int(football_yaw_ * 180 / M_PI));
+    DisplayText(1105, 660, "Pitch Angle : ", int(football_pitch_ * 180 / M_PI));
 
     InteractionScene();
 
@@ -30,6 +30,11 @@ void GameState::RenderScene() {
     this->items_.DrawGoal();
     this->items_.DrawBorder();
     this->items_.DrawSeat();
+    this->items_.DrawTarget1(!TargetShow);
+    this->items_.DrawTarget2(!TargetShow);
+    this->items_.DrawTarget3(!TargetShow);
+    this->items_.DrawTarget4(!TargetShow);
+    this->items_.DrawTarget5(!TargetShow);
 
     this->football_.DrawFootball(football_x_, football_y_, football_z_);
 //    printf("football_x:%f, football_y:%f, football_z:%f\n", football_x_, football_y_, football_z_);
@@ -229,6 +234,10 @@ void GameState::InitPenalty() {
     football_z_ = -35.5f;
 }
 
+void GameState::ScoreCheck() {
+
+}
+
 void GameState::DisplayText(GLfloat x, GLfloat y, const std::string &message, int num) const {
 
     glDisable(GL_TEXTURE_2D);
@@ -305,7 +314,7 @@ void GameState::DisplayAccumulateBar(GLfloat x, GLfloat y, float t) {
     float base_divide = 100.0;            //high value point high precision
     float tx, ty;
 
-    glColor4f(0.45, 0.77, 1., 1);
+    glColor4f(0.45, 0.77, 1., 0);
     glBegin(GL_POLYGON);
     int opX[4] = {1, -1, -1, 1};
     int opY[4] = {1, 1, -1, -1};        //counting times in operation by four Quadrants
@@ -322,7 +331,7 @@ void GameState::DisplayAccumulateBar(GLfloat x, GLfloat y, float t) {
     glEnd();
 
     float tx_2, ty_2;
-    glColor4f(0.99, 0.92, 0.52, 1);
+    glColor4f(0.99, 0.92, 0.52, 0);
     glBegin(GL_POLYGON);
     int opX_2[4] = {1, -1, -1, 1};
     int opY_2[4] = {1, 1, -1, -1};        //counting times in operation by four Quadrants
