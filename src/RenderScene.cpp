@@ -30,13 +30,20 @@ void GameState::RenderScene() {
     this->items_.DrawGoal();
     this->items_.DrawBorder();
     this->items_.DrawSeat();
-    this->items_.DrawTarget1(!TargetShow);
-    this->items_.DrawTarget2(!TargetShow);
-    this->items_.DrawTarget3(!TargetShow);
-    this->items_.DrawTarget4(!TargetShow);
-    this->items_.DrawTarget5(!TargetShow);
 
-    this->football_.DrawFootball(football_x_, football_y_, football_z_);
+    if (ShowTarget) {
+        ScoreCheck();
+        this->items_.DrawTarget1(target1);
+        this->items_.DrawTarget2(target2);
+        this->items_.DrawTarget3(target3);
+        this->items_.DrawTarget4(target4);
+        this->items_.DrawTarget5(target5);
+    }
+
+    DisplayText(600, 700, "Score: ", score);
+
+    SpinControl(shoot_yaw_);
+    this->football_.DrawFootball(football_x_, football_y_, football_z_, spin_x, spin_y, spin_z);
 //    printf("football_x:%f, football_y:%f, football_z:%f\n", football_x_, football_y_, football_z_);
 
     glPopMatrix();
@@ -45,25 +52,26 @@ void GameState::RenderScene() {
 }
 
 void GameState::InteractionScene() {
-    if (FreeMode){
+    if (FreeMode) {
         DisplayTextOnly(20, 700, "Mode FreePlay On!");
-    } else{
+    } else {
         DisplayTextOnly(20, 700, "Mode FreePlay Off!");
     }
-    if (ShootingMode){
+    if (ShootingMode) {
         DisplayTextOnly(20, 680, "Mode Shooting On!");
-    } else{
+    } else {
         DisplayTextOnly(20, 680, "Mode Shooting Off!");
     }
-    if (PenaltyMode){
+    if (PenaltyMode) {
         DisplayTextOnly(20, 660, "Mode FreePlay On!");
-    } else{
+    } else {
         DisplayTextOnly(20, 660, "Mode FreePlay Off!");
     }
 
     if (ShootingMode and !FreeMode) {
-        if (PenaltyMode){
+        if (PenaltyMode) {
             InitPenalty();
+            ShowTarget = true;
             PenaltyMode = false;
         }
         if (PowerAccumulate) {
@@ -76,7 +84,9 @@ void GameState::InteractionScene() {
             VelocityCalculate(shoot_yaw_, shoot_pitch_);
             FinishAccumulate = true;
 //            printf(("init_x:%f; init_y:%f, ini_z:%f\n"), init_x_, init_y_, init_z_);
-        } else if (!PowerAccumulate and FinishAccumulate) {
+        }
+        LOGD("init_v_h:%f, init_v_v:%f", init_v_horizon, init_v_vertical);
+        if ((!PowerAccumulate) and FinishAccumulate) {
             accumulate_t = 0;
             CollisionCheck(football_x_, football_z_);
             VerticalMovement(init_v_vertical);
@@ -130,7 +140,7 @@ void GameState::VerticalMovement(float vy) {
     if (vy < min_speed) {
         vy = 0;
         init_v_vertical = 0;
-        football_y_ = 1.1f;
+        football_y_ = 0.35f;
         VerticalMove = false;
     } else {
         VerticalMove = true;
@@ -142,10 +152,10 @@ void GameState::VerticalMovement(float vy) {
         football_y_ = relative_y_ + init_y_;
 //        printf("football_y:%f\n", football_y_);
 
-        if (football_y_ < 1.1) {
+        if (football_y_ < 0.35) {
             ty = 0;
             init_v_vertical = init_v_vertical * 0.5f;
-            football_y_ = 1.1f;
+            football_y_ = 0.35f;
         }
     }
 }
@@ -157,7 +167,7 @@ void GameState::HorizonMovement(float v, float yaw) {
     if ((v - u * tx) < 0) {
         tx = 0;
         v = 0;
-        init_v_horizon = 0;
+//        init_v_horizon = 0;
         init_x_ = football_x_;
         init_z_ = football_z_;
         HorizonMove = false;
@@ -227,15 +237,76 @@ void GameState::ResetBallPosition() {
 
 void GameState::InitPenalty() {
     camera_.eye_x_ = 0.f;
-    camera_.eye_y_ = 0.0f;
+    camera_.eye_y_ = 1.0f;
     camera_.eye_z_ = -31.f;
     football_x_ = 0.f;
-    football_y_ = 1.1f;
-    football_z_ = -35.5f;
+    football_y_ = 0.35f;
+    football_z_ = -37.5f;
 }
 
 void GameState::ScoreCheck() {
+    if (football_x_ > -4.5 and football_x_ < -3.5
+        and football_y_ > 3.5 and football_y_ < 4.5
+        and football_z_ > -46 and football_z_ < -45) {
+        target1 = true;
+    }
 
+    if (football_x_ > -4.5 and football_x_ < -3.5
+        and football_y_ > 0 and football_y_ < 1
+        and football_z_ > -46 and football_z_ < -45) {
+        target2 = true;
+    }
+
+    if (football_x_ > -0.5 and football_x_ < 0.5
+        and football_y_ > 0 and football_y_ < 1
+        and football_z_ > -46 and football_z_ < -45) {
+        target3 = true;
+    }
+
+    if (football_x_ > 3.5 and football_x_ < 4.5
+        and football_y_ > 0 and football_y_ < 1
+        and football_z_ > -46 and football_z_ < -45) {
+        target4 = true;
+    }
+
+    if (football_x_ > 3.5 and football_x_ < 4.5
+        and football_y_ > 3.5 and football_y_ < 4.5
+        and football_z_ > -46 and football_z_ < -45) {
+        target5 = true;
+    }
+
+    if (target1 or target2 or target3 or target4 or target5) {
+        score = 1;
+    }
+    if ((target1 and target2) or (target1 and target3) or (target1 and target4) or (target1 and target5) or
+        (target2 and target3) or (target2 and target4) or (target2 and target5) or (target3 and target4) or
+        (target3 and target5) or (target4 and target5)) {
+        score = 2;
+    }
+    if ((target1 and target2 and target3) or (target1 and target2 and target4) or
+        (target1 and target2 and target5) or (target1 and target3 and target4) or
+        (target1 and target3 and target5) or (target1 and target4 and target5) or
+        (target2 and target3 and target4) or (target2 and target3 and target5) or
+        (target2 and target4 and target5) or (target3 and target4 and target5)) {
+        score = 3;
+    }
+    if ((target1 and target2 and target3 and target4) or (target1 and target2 and target3 and target5) or
+        (target2 and target3 and target4 and target5)) {
+        score = 4;
+    }
+    if (target1 and target2 and target3 and target4 and target5) {
+        score = 5;
+    }
+}
+
+void GameState::SpinControl(float yaw) {
+    if (football_x_ > store_ball_x) spin_z -= 3;
+    if (football_x_ < store_ball_x) spin_z += 3;
+    if (football_z_ > store_ball_z) spin_x += 3;
+    if (football_z_ < store_ball_z) spin_x -= 3;
+    store_ball_x = football_x_;
+    store_ball_y = football_y_;
+    store_ball_z = football_z_;
 }
 
 void GameState::DisplayText(GLfloat x, GLfloat y, const std::string &message, int num) const {
@@ -269,7 +340,7 @@ void GameState::DisplayText(GLfloat x, GLfloat y, const std::string &message, in
     glEnable(GL_TEXTURE_2D);
 }
 
-void GameState::DisplayTextOnly(GLfloat x, GLfloat y, const std::string& message) const {
+void GameState::DisplayTextOnly(GLfloat x, GLfloat y, const std::string &message) const {
     glDisable(GL_TEXTURE_2D);
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();

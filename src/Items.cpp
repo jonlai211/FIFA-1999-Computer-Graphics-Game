@@ -176,54 +176,65 @@ void Items::DrawSeat() {
     }
 }
 
-void Items::DrawTarget1(bool show){
-    glColor4f(0.92, 0.73, 0.f, 1.f);
+void Items::DrawTarget1(bool show) {
+    if (!show) {
+        glColor4f(0.92, 0.73, 0.f, 1.f);
 
-    glPushMatrix();
-    glTranslatef(-4, 4, -45.5);
-    glScalef(1, 1, 0.5);
-    glutSolidTorus(0.05, 0.5, 30, 30);
-    glPopMatrix();
+        glPushMatrix();
+        glTranslatef(-4, 4, -45.5);
+        glScalef(1, 1, 0.5);
+        glutSolidTorus(0.05, 0.5, 30, 30);
+        glPopMatrix();
+    }
 }
 
-void Items::DrawTarget2(bool show){
-    glColor4f(0.92, 0.73, 0.f, 1.f);
+void Items::DrawTarget2(bool show) {
+    if (!show) {
+        glColor4f(0.92, 0.73, 0.f, 1.f);
 
-    glPushMatrix();
-    glTranslatef(-4, 0.5, -45.5);
-    glScalef(1, 1, 0.5);
-    glutSolidTorus(0.05, 0.5, 30, 30);
-    glPopMatrix();
+        glPushMatrix();
+        glTranslatef(-4, 0.5, -45.5);
+        glScalef(1, 1, 0.5);
+        glutSolidTorus(0.05, 0.5, 30, 30);
+        glPopMatrix();
+    }
 }
 
-void Items::DrawTarget3(bool show){
-    glColor4f(0.92, 0.73, 0.f, 1.f);
+void Items::DrawTarget3(bool show) {
+    if (!show) {
+        glColor4f(0.92, 0.73, 0.f, 1.f);
 
-    glPushMatrix();
-    glTranslatef(0, 0.5, -45.5);
-    glScalef(1, 1, 0.5);
-    glutSolidTorus(0.05, 0.5, 30, 30);
-    glPopMatrix();
+        glPushMatrix();
+        glTranslatef(0, 0.5, -45.5);
+        glScalef(1, 1, 0.5);
+        glutSolidTorus(0.05, 0.5, 30, 30);
+        glPopMatrix();
+    }
 }
 
-void Items::DrawTarget4(bool show){
-    glColor4f(0.92, 0.73, 0.f, 1.f);
+void Items::DrawTarget4(bool show) {
+    if (!show) {
+        glColor4f(0.92, 0.73, 0.f, 1.f);
 
-    glPushMatrix();
-    glTranslatef(4, 0.5, -45.5);
-    glScalef(1, 1, 0.5);
-    glutSolidTorus(0.05, 0.5, 30, 30);
-    glPopMatrix();
+        glPushMatrix();
+        glTranslatef(4, 0.5, -45.5);
+        glScalef(1, 1, 0.5);
+        glutSolidTorus(0.05, 0.5, 30, 30);
+        glPopMatrix();
+    }
 }
 
-void Items::DrawTarget5(bool show){
-    glColor4f(0.92, 0.73, 0.f, 1.f);
+void Items::DrawTarget5(bool show) {
+    if (!show) {
+        glColor4f(0.92, 0.73, 0.f, 1.f);
 
-    glPushMatrix();
-    glTranslatef(4, 4, -45.5);
-    glScalef(1, 1, 0.5);
-    glutSolidTorus(0.05, 0.5, 30, 30);
-    glPopMatrix();
+        glPushMatrix();
+        glTranslatef(4, 4, -45.5);
+        glScalef(1, 1, 0.5);
+        glutSolidTorus(0.05, 0.5, 30, 30);
+        glPopMatrix();
+    }
+
 }
 
 void Items::LoadAll() {

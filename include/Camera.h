@@ -21,7 +21,7 @@
 #define EYE_X_MAX 30.0f
 #define EYE_X_STEP 0.2f
 
-#define EYE_Y_MIN (2.0f)
+#define EYE_Y_MIN (1.5f)
 #define EYE_Y_MAX 50.0f
 #define EYE_Y_STEP 0.2f
 

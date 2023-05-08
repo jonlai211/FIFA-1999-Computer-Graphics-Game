@@ -7,7 +7,8 @@
 
 Football::Football(float x, float y, float z) : transform(x, y, z) {
     transform.position.x = camera.eye_x_;
-    transform.position.y = 1.1f;
+//    transform.position.y = 1.1f;
+    transform.position.y = 0.35f;
     transform.position.z = camera.eye_z_ + 4;
 }
 
@@ -17,15 +18,16 @@ bool Football::CollisionCheck(float x, float z) {
     return false;
 }
 
-void Football::DrawFootball(float x, float y, float z) {
+void Football::DrawFootball(float x, float y, float z, float rotate_x, float rotate_y, float rotate_z) {
     if (x > 28) { x = 28; } else if (x < -28) { x = -28; } else if (z > 48) { z = 48; } else if (z < -48) { z = -48; }
 
     glPushMatrix();
     glFrontFace(GL_CCW);
     glTranslatef(x, y, z);
-    glRotatef(transform.rotation.x, 1, 0, 0);
-    glRotatef(transform.rotation.y, 0, 1, 0);
-    glRotatef(transform.rotation.z, 0, 0, 1);
+//    SpinFootball(w, s, a, d);
+    glRotatef(rotate_x, 1, 0, 0);
+    glRotatef(rotate_y, 0, 1, 0);
+    glRotatef(rotate_z, 0, 0, 1);
     glColor3f(1, 1, 1);
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, this->football_texture_.GetID());

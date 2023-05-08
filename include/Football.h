@@ -25,7 +25,7 @@ public:
 
     static bool CollisionCheck(float x, float z);
 
-    void DrawFootball(float x, float y, float z);
+    void DrawFootball(float x, float y, float z, float rotate_x, float rotate_y, float rotate_z);
 
     Vector3 ball_velocity, ball_acceleration;
 

@@ -16,7 +16,6 @@ void Lighting::Apply() {
     glLightfv(GL_LIGHT0, GL_POSITION, light_0_pos);
     glLightfv(GL_LIGHT0, GL_AMBIENT, light_0_ambient);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, light_0_diffuse);
-//    glLightfv(GL_LIGHT0, GL_SPECULAR, light_0_ambient);
 
     GLfloat light_1_pos[] = {0.0, 0.0, 0.0, 1.0};
     GLfloat light_1_ambient[] = {0.01, 0.01, 0.01, 0.01f};

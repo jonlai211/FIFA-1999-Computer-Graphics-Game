@@ -73,6 +73,8 @@ public:
 
     void InitPenalty();
 
+    void SpinControl(float yaw);
+
     void ScoreCheck();
 
     void *font = GLUT_BITMAP_9_BY_15;
@@ -82,36 +84,37 @@ private:
     Mouse mouse_;
     Lighting lighting_;
     Items items_;
-    Football football_ = Football(0, 1.1, 0);
+//    Football football_ = Football(0, 1.1, 0);
+    Football football_ = Football(0, 0.35, 0);
 
     bool debug_mode_;
-    bool FPS_mode = false;
-
     bool ShootingMode = false, FreeMode = false;
     bool PowerAccumulate = false;
     bool FinishAccumulate = false;
     bool PenaltyMode = false;
-    bool TargetShow = false;
     bool HorizonMove = false, VerticalMove = false;
-    bool ResetBall = false;
+    bool ShowTarget = false;
+    bool y_move_ = false, z_move_ = false;
     bool Reflect = false;
+    bool target1 = false, target2 = false, target3 = false, target4 = false, target5 = false;
+
     float shoot_yaw_ = 0, shoot_pitch_ = 0;
     float init_v_vertical, init_v_horizon;
     float relative_x_, relative_y_, relative_z_, relative_horizon_;
-    int collision_wall_num = 0;
-
-
-    bool y_move_ = false, z_move_ = false;
-    float football_x_, football_y_ = 1.1f, football_z_;
+    float store_ball_x = 0, store_ball_y = 0, store_ball_z = 0;
+    float spin_x = 0, spin_y = 0, spin_z = 0, rotate_x, rotate_y, rotate_z;
+    float football_x_, football_y_ = 0.35f, football_z_;
     float football_yaw_, football_pitch_;
     float ty = 0.0f, tx =0.0f;
-    float init_y_ = 1.1f, init_x_ = 0.f, init_z_ = 0.f;
+    float init_y_ = 0.35f, init_x_ = 0.f, init_z_ = 0.f;
     float temp_y_ = 0.0f, temp_z_ = 0.0f;
     float accumulate_t = 0.f;   // 0-60
     float init_v = 0;
 
+    int score = 0;
+    int collision_wall_num = 0;
+
     Vector3 init_velocity;
-//    Vector3 init_velocity = {0, 100, 80};
     Vector3 ball_velocity;
 };
 
